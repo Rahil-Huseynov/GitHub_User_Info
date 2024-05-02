@@ -1,7 +1,6 @@
 
 const github_button = document.getElementById('github_button')
     
-
     github_button.addEventListener('click', () => {
 
         const User = async () => {
@@ -13,8 +12,8 @@ const github_button = document.getElementById('github_button')
             const data = await response.json();
 
             const userInfo = document.getElementById('user-info');
-            try {
-                if (response.status === 200) {
+
+            if (response.status === 200) {
                     userInfo.innerHTML = `
                     <div class="github_container_about">
 
@@ -42,9 +41,7 @@ const github_button = document.getElementById('github_button')
                     userInfo.innerHTML = "<p>Belə bir istifadəçi tapılmadı.</p>";
 
                 }
-            } catch (error) {
-                console.error('Error:', error);
-            }
+          
         };
 
         User();
