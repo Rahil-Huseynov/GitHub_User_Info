@@ -1,8 +1,6 @@
 
 const github_button = document.getElementById('github_button')
-
-github_button.addEventListener('click', () => {
-    const github_button = document.getElementById('github_button');
+    
 
     github_button.addEventListener('click', () => {
 
@@ -51,6 +49,3 @@ github_button.addEventListener('click', () => {
 
         User();
     });
-
-
-})
