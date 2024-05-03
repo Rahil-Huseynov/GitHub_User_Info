@@ -1,48 +1,200 @@
+const input_github_username = document.getElementById('username');
 
-const github_button = document.getElementById('github_button')
-    
-    github_button.addEventListener('click', () => {
+const userInfo = document.getElementById('user-info');
 
-        const User = async () => {
+input_github_username.onkeydown = (e) => {
 
-            const username = document.getElementById('username').value;
+    if (e.key === 'Enter') {
 
-            const response = await fetch('https://api.github.com/users/' + username);
+        getUserInfo();
 
-            const data = await response.json();
+    }
+};
 
-            const userInfo = document.getElementById('user-info');
+async function getUserInfo() {
 
-            if (response.status === 200) {
-                    userInfo.innerHTML = `
-                    <div class="github_container_about">
+    const username = document.getElementById('username').value;
 
-                    <p><strong>Adı:</strong> ${data.name || 'Məlumat yoxdur'}</p>
+    const section = document.getElementById('section')
 
-                    <p><strong>Daxil ol:</strong> ${data.login || 'Məlumat yoxdur'}</p>
+    const response = await fetch('https://api.github.com/users/' + username);
 
-                    <p><strong>GitHub Linki:</strong> <a href="${data.html_url || 'Məlumat yoxdur'}">${data.html_url || 'Məlumat yoxdur'}</a></p>
+    const data = await response.json();
 
-                    <p><strong>Bloq Linki:</strong> <a href="${data.blog || '#'}">${data.blog || 'Məlumat yoxdur'}</a></p>
+    if (response.status === 200) {
 
-                    <p><strong>Şəhər:</strong> ${data.location || 'Məlumat yoxdur'}</p>
+        userInfo.innerHTML = `
 
-                    <p><strong>Poçt:</strong> ${data.email || 'Məlumat yoxdur'}</p>
+        <div class="profil_photo">
 
-                    <p><strong>Abunəçilərin sayı:</strong> ${data.followers}</p>
+        <img src="${data.avatar_url}">
 
-                    <p><strong>Abunələrin sayı:</strong> ${data.following}</p>
-                    </div>
-                    <div class="profil_photo">
-                    <img src="${data.avatar_url}">
-                    </div>
-                `;
-                } else {
-                    userInfo.innerHTML = "<p>Belə bir istifadəçi tapılmadı.</p>";
+        <p><strong>Adı:</strong> ${data.name || 'Məlumat yoxdur'}</p>
 
-                }
-          
-        };
+        <div style="border: 1px solid black; height: 0.1px; opacity: 0.1;"></div>
 
-        User();
-    });
+        <p><strong>Daxil ol:</strong> ${data.login || 'Məlumat yoxdur'}</p>
+
+        <div style="border: 1px solid black; height: 0.1px; opacity: 0.1;"></div>
+
+        </div>
+
+        <div class="github_container_about">
+
+        <p><strong>GitHub Linki:</strong> <a href="${data.html_url || 'Məlumat yoxdur'}">${data.html_url || 'Məlumat yoxdur'}</a></p>
+
+        <div style="border: 1px solid black; height: 0.1px; opacity: 0.1;"></div>
+
+        <p><strong>Bloq Linki:</strong> <a href="${data.blog || '#'}">${data.blog || 'Məlumat yoxdur'}</a></p>
+
+        <div style="border: 1px solid black; height: 0.1px; opacity: 0.1;"></div>
+
+        <p><strong>Şəhər:</strong> ${data.location || 'Məlumat yoxdur'}</p>
+
+        <div style="border: 1px solid black; height: 0.1px; opacity: 0.1;"></div>
+
+        <p><strong>Poçt:</strong> ${data.email || 'Məlumat yoxdur'}</p>
+
+        <div style="border: 1px solid black; height: 0.1px; opacity: 0.1;"></div>
+
+        <p><strong>Abunəçilərin sayı:</strong> ${data.followers}</p>
+
+        <div style="border: 1px solid black; ; opacity: 0.1;"></div>
+
+        <p><strong>Abunələrin sayı:</strong> ${data.following}</p>
+
+        <div style="border: 1px solid black; opacity: 0.1;"></div>
+
+        </div>
+        `;
+
+        section.style.display = 'block'
+    } else {
+
+        userInfo.innerHTML = "<p>Belə bir istifadəçi tapılmadı.</p>";
+    }
+}
+
+
+
+
+
+
+
+const weather_input = document.getElementById('cityInput');
+
+const currentWeather = document.getElementById('currentWeather');
+
+const hourlyWeather = document.getElementById('hourlyWeather');
+
+const hourlyWeather_h2 = document.getElementById('hourlyWeather_h2')
+
+weather_input.onkeydown = (e) => {
+
+    if (e.key === 'Enter') {
+
+        temperatur();
+
+    }
+};
+
+const temperatur = async () => {
+
+    const city = document.getElementById('cityInput').value;
+
+    const apiKey = '077118ed465d578cff1db686007f4f40';
+
+    const currentResponse_live = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+
+    const currentData = await currentResponse_live.json();
+
+    const forecastResponse_hours = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`);
+
+    const forecastData = await forecastResponse_hours.json();
+
+    if (currentResponse_live.status === 200 || forecastResponse_hours.status === 2000) {
+
+        const currentWeather = document.getElementById('currentWeather');
+
+        currentWeather.innerHTML = `
+
+        <div class="location_date">
+        
+        <h3>${currentData.name}</h3>
+        
+        <strong>Tarix: ${new Date().toLocaleDateString()}</strong>
+        
+        </div>
+
+        <div class="container_now_weather">
+        
+        <div>
+
+        <p class="weather_des">${currentData.weather[0].description}</p>
+        
+        <img src="http://openweathermap.org/img/wn/${currentData.weather[0].icon}.png">
+        
+        </div>
+        
+        <div class="weather_now_c">
+        
+        <strong class="weather_now_c_element"> ${currentData.main.temp}°C</strong>
+        
+        </div>
+       
+        <div class="weather_more">
+        
+        <p>Ən aşağı temperatur: ${currentData.main.temp_min}°C</p>
+        
+        <p>Ən yuxarı temperatur: ${currentData.main.temp_max}°C</p>
+        
+        <p>Wind Speed: ${currentData.wind.speed} m/s</p>
+        
+        </div>
+        
+        </div>
+        `;
+
+        const hourlyWeather = document.getElementById('hourlyWeather');
+
+        hourlyWeather_h2.style.display = 'block'
+
+        hourlyWeather.innerHTML = '';
+
+        for (let i = 0; i < 9; i++) {
+
+            const hourlyData = forecastData.list[i];
+
+            const time = new Date(hourlyData.dt * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+            const icon = hourlyData.weather[0].icon;
+
+            const description = hourlyData.weather[0].description;
+
+            const temperature = hourlyData.main.temp;
+
+            const windSpeed = hourlyData.wind.speed;
+
+            hourlyWeather.innerHTML += `
+                <div class="hourly-weather-item">
+        
+                <p>Saat: ${time}</p>
+        
+                <img src="http://openweathermap.org/img/wn/${icon}.png" alt="Weather Icon">
+        
+                <p>Vəziyyət: ${description}</p>
+        
+                <p>Dərəcə: ${temperature}°C</p>
+        
+                <p>Külək sürəti: ${windSpeed} m/s</p>
+        
+                </div>
+            `;
+        }
+    } else {
+        currentWeather.innerHTML = `Yalnış ərazi`
+        
+        hourlyWeather.innerHTML.display = 'none'
+    }
+
+}
