@@ -182,7 +182,7 @@ const temperatur = async () => {
         
                 <img src="http://openweathermap.org/img/wn/${icon}.png" alt="Weather Icon">
         
-                <p>Vəziyyət: ${description}</p>
+                <p>Havanın təsviri: ${description}</p>
         
                 <p>Dərəcə: ${temperature}°C</p>
         
