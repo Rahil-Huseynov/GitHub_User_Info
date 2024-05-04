@@ -130,7 +130,7 @@ const temperatur = async () => {
         
         <div>
 
-        <p class="weather_des">${currentData.weather[0].description}</p>
+        <p class="weather_des">${currentData.weather[0].main}</p>
         
         <img src="http://openweathermap.org/img/wn/${currentData.weather[0].icon}.png">
         
@@ -169,7 +169,7 @@ const temperatur = async () => {
 
             const icon = hourlyData.weather[0].icon;
 
-            const description = hourlyData.weather[0].description;
+            const description = hourlyData.weather[0].main;
 
             const temperature = hourlyData.main.temp;
 
